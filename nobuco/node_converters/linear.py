@@ -60,8 +60,10 @@ def converter_matmul(input: Tensor, other: Tensor, *, out: Optional[Tensor]=None
 
 
 @converter(torch.Tensor.matmul, torch.Tensor.__matmul__, channel_ordering_strategy=ChannelOrderingStrategy.FORCE_PYTORCH_ORDER)
-def converter_matmul(self, tensor2):
+def converter_matmul(self, tensor2: Tensor):
     def func(self, tensor2):
+        if self.shape.rank == 1:
+            return tf.squeeze(tf.linalg.matmul(tf.expand_dims(self, axis=0), tensor2))
         return tf.linalg.matmul(self, tensor2)
     return func
 

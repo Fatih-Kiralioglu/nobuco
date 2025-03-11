@@ -2,7 +2,7 @@ import random
 import time
 from copy import deepcopy
 from typing import Callable, Tuple
-
+from nobuco.commons import TF_TENSOR_CLASSES
 import torch
 from torch import nn
 
@@ -54,6 +54,34 @@ def collect_recursively_func(obj, predicate: Callable[[object], bool]):
                 collect(v)
 
     collect(obj)
+    #print("collected: ", collected)
+    return collected
+
+def collect_recursively_func2(obj, predicate: Callable[[object], bool]):
+    collected = []
+    memo_ids = []
+    def collect(obj):
+        if predicate(obj):
+            collected.append(obj)
+        elif id(obj) not in memo_ids:
+            memo_ids.append(id(obj))
+            if isinstance(obj, (list, tuple)):
+                for el in obj:
+                    collect(el)
+            elif isinstance(obj, dict):
+                for k, v in obj.items():
+                    collect(k)
+                    collect(v)
+            elif isinstance(obj, slice):
+                collect(obj.start)
+                collect(obj.stop)
+                collect(obj.step)
+            elif hasattr(obj, '__dict__') and not isinstance(obj, nn.Module):
+                v = vars(obj)
+                collect(v)
+
+    collect(obj)
+    #print("collected: ", collected)
     return collected
 
 

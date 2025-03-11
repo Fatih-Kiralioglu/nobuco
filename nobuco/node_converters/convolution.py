@@ -473,7 +473,7 @@ def converter_ConvTranspose2d(self, input: Tensor, output_size: Optional[List[in
     if isinstance(output_padding, numbers.Number):
         output_padding = (output_padding, output_padding)
 
-    assert output_padding == (0, 0), 'Output padding is not supported yet'
+    #assert output_padding == (0, 0), 'Output padding is not supported yet'
 
     in_filters, depth_multiplier, kh, kw = weight.shape
     out_filters = groups * depth_multiplier
@@ -497,7 +497,8 @@ def converter_ConvTranspose2d(self, input: Tensor, output_size: Optional[List[in
                                             dilation_rate=dilation,
                                             groups=1,
                                             use_bias=use_bias,
-                                            weights=params
+                                            weights=params,
+                                            output_padding=output_padding
                                             )
     else:
         weights = params[0]
@@ -516,7 +517,8 @@ def converter_ConvTranspose2d(self, input: Tensor, output_size: Optional[List[in
                                             dilation_rate=dilation,
                                             groups=1,
                                             use_bias=use_bias,
-                                            weights=params
+                                            weights=params,
+                                            output_padding=output_padding
                                             )
 
     def func(input: Tensor, output_size: Optional[List[int]] = None):
@@ -552,7 +554,7 @@ def converter_conv_transpose2d(input: Tensor, weight: Tensor, bias: Optional[Ten
     if isinstance(output_padding, numbers.Number):
         output_padding = (output_padding, output_padding)
 
-    assert output_padding == (0, 0), 'Output padding is not supported yet'
+    #assert output_padding == (0, 0), 'Output padding is not supported yet'
 
     in_filters, depth_multiplier, kh, kw = weight.shape
     out_filters = groups * depth_multiplier
@@ -576,7 +578,8 @@ def converter_conv_transpose2d(input: Tensor, weight: Tensor, bias: Optional[Ten
                                             dilation_rate=dilation,
                                             groups=1,
                                             use_bias=use_bias,
-                                            weights=params
+                                            weights=params,
+                                            output_padding=output_padding
                                             )
     else:
         weights = params[0]
@@ -595,7 +598,8 @@ def converter_conv_transpose2d(input: Tensor, weight: Tensor, bias: Optional[Ten
                                             dilation_rate=dilation,
                                             groups=1,
                                             use_bias=use_bias,
-                                            weights=params
+                                            weights=params,
+                                            output_padding=output_padding
                                             )
 
     def func(input, *args, **kwargs):
