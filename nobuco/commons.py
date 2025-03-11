@@ -1,7 +1,7 @@
 from enum import Enum
 import tensorflow as tf
-from tensorflow.python import keras 
-from keras.engine.keras_tensor import KerasTensor
+from tensorflow.python import keras
+from keras.src.engine.keras_tensor import KerasTensor
 from tensorflow.python.ops.resource_variable_ops import ResourceVariable
 
 CONVERTER_DICT = {}
